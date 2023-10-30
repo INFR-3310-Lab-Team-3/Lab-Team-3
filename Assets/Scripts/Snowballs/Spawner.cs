@@ -7,6 +7,8 @@ public class Spawner : MonoBehaviour
     public GameObject snowball;
 
     bool hasSpawned = false;
+    public bool isTriggerBased = false;
+    bool seesPlayer = false;
 
     private void Start()
     {
@@ -15,12 +17,25 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (!hasSpawned)
+        if (!isTriggerBased)
         {
-            Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
-            hasSpawned = true;
-            StartCoroutine(ResetSpawner());
+            if (!hasSpawned)
+            {
+                Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
+                hasSpawned = true;
+                StartCoroutine(ResetSpawner());
+            }
         }
+        else
+        {
+            if (!hasSpawned && seesPlayer)
+            {
+                Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
+                hasSpawned = true;
+                StartCoroutine(ResetSpawner());
+            }
+        }
+        
     }
 
     IEnumerator ResetSpawner()
@@ -29,18 +44,19 @@ public class Spawner : MonoBehaviour
         hasSpawned = false;
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && hasSpawned == false)
+        if (other.gameObject.tag == "Player")
         {
-            while (numOfSnowballs > 0)
-            {
-                Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
-
-                numOfSnowballs--;
-            }
-
-            hasSpawned = true;
+            seesPlayer = true;
         }
-    }*/
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            seesPlayer = false;
+        }
+    }
 }
