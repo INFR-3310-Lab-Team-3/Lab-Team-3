@@ -6,16 +6,30 @@ public class Spawner : MonoBehaviour
 {
     public GameObject snowball;
 
-    int numOfSnowballs;
-
     bool hasSpawned = false;
 
     private void Start()
     {
-        numOfSnowballs = Random.Range(1, 3);
+
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
+    {
+        if (!hasSpawned)
+        {
+            Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
+            hasSpawned = true;
+            StartCoroutine(ResetSpawner());
+        }
+    }
+
+    IEnumerator ResetSpawner()
+    {
+        yield return new WaitForSeconds(Random.Range(3, 10));
+        hasSpawned = false;
+    }
+
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player" && hasSpawned == false)
         {
@@ -28,5 +42,5 @@ public class Spawner : MonoBehaviour
 
             hasSpawned = true;
         }
-    }
+    }*/
 }

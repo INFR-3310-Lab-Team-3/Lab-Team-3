@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             lookDir = -1;
-        }else if (Input.GetKeyUp(KeyCode.S))
+        }else if (Input.GetKeyUp(KeyCode.W))
         {
             lookDir = 1;
         }
