@@ -7,10 +7,10 @@ public class MaterialChanger : EditorWindow
 {
     Material mat;
 
-    [MenuItem("Window/ObjectSelector")]
+    [MenuItem("Window/MaterialChanger")]
     public static void EnableWindow()
     {
-        GetWindow<MaterialChanger>("ObjectSelector");
+        GetWindow<MaterialChanger>("MaterialChanger");
     }
 
     private void OnGUI()
