@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
     bool hasSpawned = false;
     public bool isTriggerBased = false;
     bool seesPlayer = false;
+    [SerializeField] bool isActive = true;
 
     private void Start()
     {
@@ -17,25 +18,27 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (!isTriggerBased)
+        if (isActive)
         {
-            if (!hasSpawned)
+            if (!isTriggerBased)
             {
-                Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
-                hasSpawned = true;
-                StartCoroutine(ResetSpawner());
+                if (!hasSpawned)
+                {
+                    Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
+                    hasSpawned = true;
+                    StartCoroutine(ResetSpawner());
+                }
+            }
+            else
+            {
+                if (!hasSpawned && seesPlayer)
+                {
+                    Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
+                    hasSpawned = true;
+                    StartCoroutine(ResetSpawner());
+                }
             }
         }
-        else
-        {
-            if (!hasSpawned && seesPlayer)
-            {
-                Instantiate(snowball, this.transform.position + new Vector3(0f, 0f, Random.Range(-5f, 5f)), Quaternion.identity);
-                hasSpawned = true;
-                StartCoroutine(ResetSpawner());
-            }
-        }
-        
     }
 
     IEnumerator ResetSpawner()
